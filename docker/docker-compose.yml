@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: loanservice-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_DATABASE: loanService
+    ports:
+      - "3306:3306"
+    networks:
+      - loanservice-network
+
+  app:
+    image: loanservice
+    container_name: loanservice-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/loanService
+      SPRING_DATASOURCE_USERNAME: mysqlname
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    networks:
+      - loanservice-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: loanservice-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - loanservice-network
+
+networks:
+  loanservice-network:
+    driver: bridge
