@@ -17,7 +17,7 @@ public class EncryptionAOP {
 
     private final EncryptionUtil encryptionUtil;
 
-    @Around("execution(* com.example.loanservice.user.repository.*.save(..)) || execution(* com.example.loanservice.user.repository.*.find*(..))")
+    @Around("execution(* com.zerobase.loanService.user.repository.*.save(..)) || execution(* com.zerobase.loanService.user.repository.*.find*(..))")
     public Object handleEncryption(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
